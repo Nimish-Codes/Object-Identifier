@@ -4,4 +4,3 @@ Pillow
 numpy
 matplotlib
 opencv-python-headless
-OpenCV
