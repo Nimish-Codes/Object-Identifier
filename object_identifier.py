@@ -4,6 +4,10 @@ from PIL import Image
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+import os
+
+# Set the environment variable to disable GUI libraries for OpenCV
+os.environ['OPENCV_IO_ENABLE_JASPER'] = '0'
 
 # Load a pre-trained MobileNetV2 model trained on ImageNet
 model = tf.keras.applications.MobileNetV2(weights='imagenet')
