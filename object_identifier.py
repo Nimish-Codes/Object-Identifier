@@ -51,7 +51,13 @@ def main():
     if uploaded_file is not None:
         # Load the image
         user_image = Image.open(uploaded_file)
-        image_np = cv2.cvtColor(np.array(user_image), cv2.COLOR_RGB2BGR)
+        
+        # Explicitly check if cv2 was imported successfully
+        try:
+            image_np = cv2.cvtColor(np.array(user_image), cv2.COLOR_RGB2BGR)
+        except NameError:
+            st.write("Error importing cv2. Make sure OpenCV is installed and try restarting the application.")
+            return
 
         # Convert image to uint8
         image_np_uint8 = cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB)
