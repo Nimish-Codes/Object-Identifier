@@ -46,7 +46,9 @@ def main():
     st.title("Object Detection with MobileNetV2")
 
     # Get user input for the image file
-    uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+    uploaded_file = st.file_uploader("Choose an image...") 
+    
+    #, type=["jpg", "jpeg", "png"])
 
     if uploaded_file is not None:
         # Load the image
