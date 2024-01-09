@@ -1,4 +1,9 @@
 import os
+import streamlit as st
+import tensorflow as tf
+from PIL import Image
+import numpy as np
+import cv2
 
 # Set the environment variable to disable GUI libraries for OpenCV
 os.environ['OPENCV_IO_ENABLE_JASPER'] = '0'
@@ -7,13 +12,7 @@ os.environ['OPENCV_IO_ENABLE_JASPER'] = '0'
 try:
     import cv2
 except ImportError:
-    print("Error importing cv2")
-
-import streamlit as st
-import tensorflow as tf
-from PIL import Image
-import numpy as np
-import matplotlib.pyplot as plt
+    st.write("Error importing cv2. Make sure OpenCV is installed and try restarting the application.")
 
 # Load a pre-trained MobileNetV2 model trained on ImageNet
 model = tf.keras.applications.MobileNetV2(weights='imagenet')
@@ -46,14 +45,12 @@ def main():
     st.title("Object Detection with MobileNetV2")
 
     # Get user input for the image file
-    uploaded_file = st.file_uploader("Choose an image...") 
-    
-    #, type=["jpg", "jpeg", "png"])
+    uploaded_file = st.file_uploader("Choose an image...")
 
     if uploaded_file is not None:
         # Load the image
         user_image = Image.open(uploaded_file)
-        
+
         # Explicitly check if cv2 was imported successfully
         try:
             image_np = cv2.cvtColor(np.array(user_image), cv2.COLOR_RGB2BGR)
@@ -70,11 +67,19 @@ def main():
         # Display the image along with the top predicted class
         st.image(image_np, caption="Uploaded Image", use_column_width=True)
 
+        # Get the top predicted class and its confidence
         predicted_class_index = np.argmax(predictions.numpy())
-        predicted_class_name = imagenet_labels[predicted_class_index]
         confidence = predictions.numpy()[0, predicted_class_index]
+        predicted_class_name = imagenet_labels[predicted_class_index]
 
-        st.write(f"This is image of '{predicted_class_name}', [matching {confidence:.2f} (in scale of 0 to 1)]")
+        # Set a confidence threshold
+        confidence_threshold = 0.5  # You can adjust this threshold as needed
+
+        # Check if the confidence is above the threshold
+        if confidence >= confidence_threshold:
+            st.write(f"This is an image of '{predicted_class_name}', [matching {confidence:.2f} (in scale of 0 to 1)]")
+        else:
+            st.write("Not found in dataset")
 
 if __name__ == "__main__":
     main()
