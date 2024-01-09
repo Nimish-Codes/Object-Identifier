@@ -9,7 +9,6 @@ try:
 except ImportError:
     print("Error importing cv2")
 
-import cv2
 import streamlit as st
 import tensorflow as tf
 from PIL import Image
