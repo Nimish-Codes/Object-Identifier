@@ -74,7 +74,9 @@ def main():
         predicted_class_name = imagenet_labels[predicted_class_index]
         confidence = predictions.numpy()[0, predicted_class_index]
 
-        st.write(f"Predicted Class: {predicted_class_name} ({confidence:.2f})")
+        st.write(f"This is image of {predicted_class_name} (matching{confidence:.2f})(in scale of 0 to 1)")
 
 if __name__ == "__main__":
     main()
+
+st.write("Expect better result by uploading better quality image")
