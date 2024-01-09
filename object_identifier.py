@@ -1,13 +1,19 @@
-import streamlit as st
-import tensorflow as tf
-from PIL import Image
-import numpy as np
-import cv2
-import matplotlib.pyplot as plt
 import os
 
 # Set the environment variable to disable GUI libraries for OpenCV
 os.environ['OPENCV_IO_ENABLE_JASPER'] = '0'
+
+# Explicitly import cv2 after setting the environment variable
+try:
+    import cv2
+except ImportError:
+    print("Error importing cv2")
+
+import streamlit as st
+import tensorflow as tf
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
 
 # Load a pre-trained MobileNetV2 model trained on ImageNet
 model = tf.keras.applications.MobileNetV2(weights='imagenet')
